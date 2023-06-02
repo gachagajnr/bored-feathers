@@ -10,7 +10,7 @@ class GoogleStrategy extends OAuthStrategy {
     const baseData = await super.getEntityData(profile)
 
     // this will grab the picture and email address of the Google profile
-    console.log(profile)
+    
     const [fname, lname]=profile.name.split(' ')
     return {
       ...baseData,
