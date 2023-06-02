@@ -9,8 +9,6 @@ export const authentication = (app) => {
   authentication.register('jwt', new JWTStrategy())
   authentication.register('local', new LocalStrategy())
   authentication.register('google', new OAuthStrategy())
-  authentication.register('facebook', new OAuthStrategy())
-  authentication.register('twitter', new OAuthStrategy())
 
   app.use('authentication', authentication)
   app.configure(oauth())

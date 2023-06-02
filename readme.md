@@ -1,6 +1,6 @@
 # bored-feathers
 
-> bored app backend
+> bored feathers
 
 ## About
 
