@@ -6,6 +6,7 @@ const formats = [
   'time',
   'date',
   'email',
+  // 'phone'
   'hostname',
   'ipv4',
   'ipv6',

@@ -9,6 +9,10 @@ export const userSchema = Type.Object(
   {
     id: Type.Number(),
     email: Type.String(),
+    firstName: Type.String(),
+    lastName: Type.String(),
+    phoneNumber: Type.Number(),
+    avatar: Type.Optional(Type.String()),
     password: Type.Optional(Type.String()),
     googleId: Type.Optional(Type.String())
   },
@@ -23,12 +27,27 @@ export const userExternalResolver = resolve({
 })
 
 // Schema for creating new entries
-export const userDataSchema = Type.Pick(userSchema, ['email', 'password', 'googleId'], {
-  $id: 'UserData'
-})
+export const userDataSchema = Type.Pick(
+  userSchema,
+  ['email', 'password', 'firstName', 'lastName', 'phoneNumber','avatar', 'googleId'],
+  {
+    $id: 'UserData'
+  }
+)
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
-  password: passwordHash({ strategy: 'local' })
+  password: passwordHash({ strategy: 'local' }),
+  avatar: async (value, user) => {
+    // If the user passed an avatar image, use it
+    if (value !== undefined) {
+      return value
+    }
+
+    // Gravatar uses MD5 hashes from an email address to get the image
+    const hash = crypto.createHash('md5').update(user.firstName.toLowerCase()).digest('hex')
+    // Return the full avatar URL
+    return `https://s.gravatar.com/avatar/${hash}?s=60`
+  }
 })
 
 // Schema for updating existing entries
@@ -41,7 +60,15 @@ export const userPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const userQueryProperties = Type.Pick(userSchema, ['id', 'email', 'googleId'])
+export const userQueryProperties = Type.Pick(userSchema, [
+  'id',
+  'email',
+  'firstName',
+  'lastName',
+  'avatar',
+  'phoneNumber',
+  'googleId'
+])
 export const userQuerySchema = Type.Intersect(
   [
     querySyntax(userQueryProperties),
