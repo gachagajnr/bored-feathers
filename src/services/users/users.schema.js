@@ -1,4 +1,5 @@
 // // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
+import crypto from 'crypto'
 import { resolve } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { passwordHash } from '@feathersjs/authentication-local'
@@ -11,7 +12,7 @@ export const userSchema = Type.Object(
     email: Type.String(),
     firstName: Type.String(),
     lastName: Type.String(),
-    phoneNumber: Type.Number(),
+    phoneNumber: Type.String(),
     avatar: Type.Optional(Type.String()),
     password: Type.Optional(Type.String()),
     googleId: Type.Optional(Type.String())
@@ -29,9 +30,10 @@ export const userExternalResolver = resolve({
 // Schema for creating new entries
 export const userDataSchema = Type.Pick(
   userSchema,
-  ['email', 'password', 'firstName', 'lastName', 'phoneNumber','avatar', 'googleId'],
+  ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'avatar', 'googleId'],
   {
-    $id: 'UserData'
+    $id: 'UserData',
+    additionalProperties: false
   }
 )
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
