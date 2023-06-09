@@ -7,36 +7,58 @@ import { userSchema } from '../users/users.schema.js'
 // Main data model schema
 export const activitiesSchema = Type.Object(
   {
-    id: Type.Number(),
-    activityName: Type.String(),
-    activityLocation: Type.String(),
-    coordinates: Type.String(),
+    _id: Type.Number(),
+    company: Type.String(),
+    name: Type.String(),
+    location: Type.String(),
     description: Type.String(),
+    coordinates: Type.String(),
+    participants: Type.Array(),
+    prices: Type.Array(),
+    duration: Type.String(),
+    requirements: Type.String(),
+    tips: Type.String(),
     createdAt: Type.Number(),
-    ownerId: Type.Number(),
-    owner: Type.Ref(userSchema)
+    companyId: Type.Number(),
+    user: Type.Ref(userSchema)
   },
   { $id: 'Activities', additionalProperties: false }
 )
 export const activitiesValidator = getValidator(activitiesSchema, dataValidator)
 export const activitiesResolver = resolve({
-  owner: virtual(async (activity, context) => {
+  user: virtual(async (activity, context) => {
     // Associate the user that sent the message
-    return context.app.service('users').get(activity.ownerId)
+    return context.app.service('users').get(activity.companyId)
   })
 })
 
 export const activitiesExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const activitiesDataSchema = Type.Pick(activitiesSchema, ['text'], {
-  $id: 'ActivitiesData'
-})
+export const activitiesDataSchema = Type.Pick(
+  activitiesSchema,
+  [
+    'name',
+    'company',
+    'location',
+    'description',
+    'coordinates',
+    'participants',
+    'prices',
+    'duration',
+    'requirements',
+    'tips'
+  ],
+  {
+    $id: 'ActivitiesData'
+  }
+)
 export const activitiesDataValidator = getValidator(activitiesDataSchema, dataValidator)
 export const activitiesDataResolver = resolve({
-  ownerId: async (_value, activity, context) => {
+  companyId: async (_value, activity, context) => {
     // Associate the record with the id of the authenticated user
     return context.params.user.id
+    // return 1
   },
   createdAt: async () => {
     return Date.now()
@@ -52,13 +74,18 @@ export const activitiesPatchResolver = resolve({})
 
 // Schema for allowed query properties
 export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
-  'id',
-  'activityName',
-  'activityLocation',
-  'coordinates',
+  '_id',
+  'companyId',
+  'company',
+  'location',
   'description',
-  'createdAt',
-  'ownerId'
+  'coordinates',
+  'participants',
+  'prices',
+  'duration',
+  'requirements',
+  'tips',
+  'createdAt'
 ])
 export const activitiesQuerySchema = Type.Intersect(
   [
@@ -70,13 +97,15 @@ export const activitiesQuerySchema = Type.Intersect(
 )
 export const activitiesQueryValidator = getValidator(activitiesQuerySchema, queryValidator)
 export const activitiesQueryResolver = resolve({
-  ownerId: async (value, user, context) => {
+  companyId: async (value, user, context) => {
     // We want to be able to find all messages but
     // only let a user modify their own messages otherwise
     if (context.params.user && context.method !== 'find') {
       return context.params.user.id
+      // return 1
     }
 
     return value
+    // return 1
   }
 })
