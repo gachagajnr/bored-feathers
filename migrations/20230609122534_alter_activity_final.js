@@ -10,22 +10,27 @@ export async function up(knex) {
     table.string('location')
     table.string('description')
     table.string('coordinates')
-    table.specificType('participants', 'json[]')
-    table.specificType('prices', 'json[]')
+    table.specificType('participants', 'varchar[]')
+    table.specificType('prices', 'varchar[]')
     table.string('duration')
     table.string('requirements')
     table.string('tips')
   })
+
+  await knex.schema.alterTable('activities', (table) => {
+    table.bigint('createdAt')
+    table.bigint('companyId').references('id').inTable('users')
+  })
 }
- await knex.schema.alterTable('activities', (table) => {
-   table.bigint('createdAt')
-   table.bigint('ownerId').references('id').inTable('users')
- })
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 export async function down(knex) {
+  await knex.schema.alterTable('activities', (table) => {
+    table.dropColumn('createdAt')
+    table.dropColumn('companyId')
+  })
   await knex.schema.dropTable('activities')
 }

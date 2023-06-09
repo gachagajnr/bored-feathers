@@ -5,6 +5,7 @@ const formats = [
   'date-time',
   'time',
   'date',
+  'id',
   'email',
   'name',
   'company',

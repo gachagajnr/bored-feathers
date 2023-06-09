@@ -38,6 +38,7 @@ export const activitiesExternalResolver = resolve({})
 export const activitiesDataSchema = Type.Pick(
   activitiesSchema,
   [
+
     'name',
     'company',
     'location',
@@ -56,7 +57,8 @@ export const activitiesDataSchema = Type.Pick(
 export const activitiesDataValidator = getValidator(activitiesDataSchema, dataValidator)
 export const activitiesDataResolver = resolve({
   companyId: async (_value, activity, context) => {
-    // Associate the record with the id of the authenticated user
+    console.log(context.data)
+     // Associate the record with the id of the authenticated user
     return context.params.user.id
     // return 1
   },
@@ -74,7 +76,7 @@ export const activitiesPatchResolver = resolve({})
 
 // Schema for allowed query properties
 export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
-  '_id',
+  'id',
   'companyId',
   'company',
   'location',

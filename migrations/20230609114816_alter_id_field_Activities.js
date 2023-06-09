@@ -16,16 +16,21 @@ export async function up(knex) {
     table.string('requirements')
     table.string('tips')
   })
+
+  await knex.schema.alterTable('activities', (table) => {
+    table.bigint('createdAt')
+    table.bigint('companyId').references('id').inTable('users')
+  })
 }
- await knex.schema.alterTable('activities', (table) => {
-   table.bigint('createdAt')
-   table.bigint('ownerId').references('id').inTable('users')
- })
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 export async function down(knex) {
+  await knex.schema.alterTable('activities', (table) => {
+    table.dropColumn('createdAt')
+    table.dropColumn('companyId')
+  })
   await knex.schema.dropTable('activities')
 }
