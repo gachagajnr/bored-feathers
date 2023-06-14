@@ -11,6 +11,7 @@ const formats = [
   'company',
   'location',
   'description',
+  'type',
   'coordinates',
   'participants',
   'prices',

@@ -12,6 +12,7 @@ export const activitiesSchema = Type.Object(
     name: Type.String(),
     location: Type.String(),
     description: Type.String(),
+    type: Type.String(),
     coordinates: Type.String(),
     participants: Type.Array(),
     prices: Type.Array(),
@@ -38,11 +39,11 @@ export const activitiesExternalResolver = resolve({})
 export const activitiesDataSchema = Type.Pick(
   activitiesSchema,
   [
-
     'name',
     'company',
     'location',
     'description',
+    'type',
     'coordinates',
     'participants',
     'prices',
@@ -57,8 +58,7 @@ export const activitiesDataSchema = Type.Pick(
 export const activitiesDataValidator = getValidator(activitiesDataSchema, dataValidator)
 export const activitiesDataResolver = resolve({
   companyId: async (_value, activity, context) => {
-    console.log(context.data)
-     // Associate the record with the id of the authenticated user
+    // Associate the record with the id of the authenticated user
     return context.params.user.id
     // return 1
   },
@@ -80,6 +80,7 @@ export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'companyId',
   'company',
   'location',
+  'type', //indoor or outdoor activity
   'description',
   'coordinates',
   'participants',
