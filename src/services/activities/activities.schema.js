@@ -3,6 +3,7 @@ import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userSchema } from '../users/users.schema.js'
+import { likesSchema } from '../likes/likes.schema.js'
 
 // Main data model schema
 export const activitiesSchema = Type.Object(
@@ -22,15 +23,28 @@ export const activitiesSchema = Type.Object(
     tips: Type.String(),
     createdAt: Type.Number(),
     companyId: Type.Number(),
-    user: Type.Ref(userSchema)
+    creator: Type.Ref(userSchema),
+    liker: Type.Ref(userSchema)
   },
   { $id: 'Activities', additionalProperties: false }
 )
 export const activitiesValidator = getValidator(activitiesSchema, dataValidator)
 export const activitiesResolver = resolve({
-  user: virtual(async (activity, context) => {
-    // Associate the user that sent the message
+  creator: virtual(async (activity, context) => {
+    // Associate the company that created the activity
     return context.app.service('users').get(activity.companyId)
+  }),
+  liked: virtual(async (activity, context) => {
+    const liked = await context.app.service('likes').find({
+      query: {
+        activityId: activity.id,
+        userId: context.params.user.id
+      }
+    })
+
+    if (liked.total >=1 ) {
+      return true
+    } else return false
   })
 })
 
@@ -109,7 +123,6 @@ export const activitiesQueryResolver = resolve({
     if (context.params.user && context.method !== 'find') {
       return context.params.user.id
     }
-
     return value
   }
 })

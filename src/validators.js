@@ -12,6 +12,7 @@ const formats = [
   'company',
   'location',
   'description',
+  'activityId',
   'type',
   'coordinates',
   'participants',
