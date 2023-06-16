@@ -14,6 +14,7 @@ import {
 } from './likes.schema.js'
 import { LikesService, getOptions } from './likes.class.js'
 import { likesPath, likesMethods } from './likes.shared.js'
+import { preventLikingDuplicate } from '../../hooks/prevent-liking-duplicate.js'
 
 export * from './likes.class.js'
 export * from './likes.schema.js'
@@ -40,7 +41,11 @@ export const likes = (app) => {
       all: [schemaHooks.validateQuery(likesQueryValidator), schemaHooks.resolveQuery(likesQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(likesDataValidator), schemaHooks.resolveData(likesDataResolver)],
+      create: [
+        preventLikingDuplicate,
+        schemaHooks.validateData(likesDataValidator),
+        schemaHooks.resolveData(likesDataResolver)
+      ],
       patch: [schemaHooks.validateData(likesPatchValidator), schemaHooks.resolveData(likesPatchResolver)],
       remove: []
     },
