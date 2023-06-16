@@ -35,14 +35,15 @@ export const activitiesResolver = resolve({
     return context.app.service('users').get(activity.companyId)
   }),
   liked: virtual(async (activity, context) => {
-    const liked = await context.app.service('likes').find({
+    const { total } = await context.app.service('likes').find({
       query: {
         activityId: activity.id,
-        userId: context.params.user.id
+        userId: context.params.user.id,
+        $limit: 0
       }
     })
 
-    if (liked.total >=1 ) {
+    if (total > 0) {
       return true
     } else return false
   })
