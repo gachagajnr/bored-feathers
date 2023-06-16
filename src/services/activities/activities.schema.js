@@ -13,7 +13,7 @@ export const activitiesSchema = Type.Object(
     location: Type.String(),
     description: Type.String(),
     type: Type.String(),
-    isPublished:Type.Boolean(),
+    isPublished: Type.Boolean(),
     coordinates: Type.String(),
     participants: Type.Array(),
     prices: Type.Array(),
