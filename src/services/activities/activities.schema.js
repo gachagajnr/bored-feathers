@@ -13,6 +13,7 @@ export const activitiesSchema = Type.Object(
     location: Type.String(),
     description: Type.String(),
     type: Type.String(),
+    isPublished:Type.Boolean(),
     coordinates: Type.String(),
     participants: Type.Array(),
     prices: Type.Array(),
@@ -44,6 +45,7 @@ export const activitiesDataSchema = Type.Pick(
     'location',
     'description',
     'type',
+    'isPublished',
     'coordinates',
     'participants',
     'prices',
@@ -83,6 +85,7 @@ export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'type', //indoor or outdoor activity
   'description',
   'coordinates',
+  'isPublished'
   'participants',
   'prices',
   'duration',
@@ -105,10 +108,8 @@ export const activitiesQueryResolver = resolve({
     // only let a user modify their own messages otherwise
     if (context.params.user && context.method !== 'find') {
       return context.params.user.id
-      // return 1
     }
 
     return value
-    // return 1
   }
 })

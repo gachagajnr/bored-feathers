@@ -8,6 +8,7 @@ const formats = [
   'id',
   'email',
   'name',
+  'isPublished'
   'company',
   'location',
   'description',
