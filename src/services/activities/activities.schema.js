@@ -85,7 +85,7 @@ export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'type', //indoor or outdoor activity
   'description',
   'coordinates',
-  'isPublished'
+  'isPublished',
   'participants',
   'prices',
   'duration',
