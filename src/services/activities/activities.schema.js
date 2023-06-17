@@ -47,6 +47,20 @@ export const activitiesResolver = resolve({
     if (total > 0) {
       return data['0'].id
     } else return ''
+  }),
+  saved: virtual(async (activity, context) => {
+    const { total, data } = await context.app.service('saves').find({
+      query: {
+        activityId: activity.id,
+        userId: context.params.user.id,
+        $limit: 1,
+        $select: ['id']
+      }
+    })
+
+    if (total > 0) {
+      return data['0'].id
+    } else return ''
   })
 })
 
@@ -113,7 +127,17 @@ export const activitiesQuerySchema = Type.Intersect(
   [
     querySyntax(activitiesQueryProperties),
     // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
+    Type.Object(
+      {
+        // $limit: Type.Number(),
+        // $sort: { createdAt: -1 },
+        // createdAt: {
+        //   $sort: Type.Number()
+        // },
+        // $like: Type.String()
+      },
+      { additionalProperties: false }
+    )
   ],
   { additionalProperties: false }
 )

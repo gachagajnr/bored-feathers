@@ -8,6 +8,6 @@ export const preventLikingDuplicate = async (context) => {
   })
  
   if (total > 0) {
-    throw new Error('You have already Liked Activity')
+    throw new Error('You have already Saved Activity')
   }
 }
