@@ -1,5 +1,5 @@
 // // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve } from '@feathersjs/schema'
+import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { activitiesSchema } from '../activities/activities.schema.js'
@@ -16,7 +16,18 @@ export const savesSchema = Type.Object(
   { $id: 'Saves', additionalProperties: false }
 )
 export const savesValidator = getValidator(savesSchema, dataValidator)
-export const savesResolver = resolve({})
+export const savesResolver = resolve({
+  // user: virtual(async (saves, context) => {
+  //   // Associate the company that created the activity
+  //   return context.app.service('users').get(saves.userId, {
+  //     $select: ['email']
+  //   })
+  // })
+  activity: virtual(async (saves, context) => {
+    // Associate the company that created the activity
+    return context.app.service('activities').get(saves.activityId)
+  })
+})
 
 export const savesExternalResolver = resolve({})
 

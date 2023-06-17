@@ -21,10 +21,13 @@ export const activitiesSchema = Type.Object(
     duration: Type.String(),
     requirements: Type.String(),
     tips: Type.String(),
+    liked: Type.String(),
+    saved: Type.String(),
     createdAt: Type.Number(),
     companyId: Type.Number(),
-    creator: Type.Ref(userSchema),
+    creator: Type.String(),
     liker: Type.Ref(userSchema)
+    // act: Type.Ref(activitiesSchema)
   },
   { $id: 'Activities', additionalProperties: false }
 )
@@ -32,36 +35,37 @@ export const activitiesValidator = getValidator(activitiesSchema, dataValidator)
 export const activitiesResolver = resolve({
   creator: virtual(async (activity, context) => {
     // Associate the company that created the activity
-    return context.app.service('users').get(activity.companyId)
-  }),
-  liked: virtual(async (activity, context) => {
-    const { total, data } = await context.app.service('likes').find({
+    return context.app.service('users').get(activity.companyId, {
       query: {
-        activityId: activity.id,
-        userId: context.params.user.id,
-        $limit: 1,
-        $select: ['id']
+        $select: ['email']
       }
     })
-
-    if (total > 0) {
-      return data['0'].id
-    } else return ''
   }),
-  saved: virtual(async (activity, context) => {
-    const { total, data } = await context.app.service('saves').find({
-      query: {
-        activityId: activity.id,
-        userId: context.params.user.id,
-        $limit: 1,
-        $select: ['id']
-      }
-    })
+  // liked: virtual(async (activity, context) => {
+  //   const { total, data } = await context.app.service('likes').find({
+  //     query: {
+  //       activityId: activity.id,
+  //       userId: context.params.user.id,
+  //       $limit: 1,
 
-    if (total > 0) {
-      return data['0'].id
-    } else return ''
-  })
+  //     }
+  //   })
+  //   if (total > 0) {
+  //     return data['0'].id
+  //   } else return ''
+  // }),
+  // saved: virtual(async (activity, context) => {
+  //   const { total, data } = await context.app.service('saves').find({
+  //     query: {
+  //       activityId: activity.id,
+  //       userId: context.params.user.id,
+  //       $limit: 1,
+  //     }
+  //   })
+  //   if (total > 0) {
+  //     return data['0'].id
+  //   } else return ''
+  // })
 })
 
 export const activitiesExternalResolver = resolve({})
@@ -108,7 +112,7 @@ export const activitiesPatchResolver = resolve({})
 
 // Schema for allowed query properties
 export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
-  'id',
+  '_id',
   'companyId',
   'company',
   'location',
