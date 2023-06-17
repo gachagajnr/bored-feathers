@@ -8,7 +8,7 @@ import { likesSchema } from '../likes/likes.schema.js'
 // Main data model schema
 export const activitiesSchema = Type.Object(
   {
-    _id: Type.Number(),
+    id: Type.Number(),
     company: Type.String(),
     name: Type.String(),
     location: Type.String(),
@@ -112,7 +112,7 @@ export const activitiesPatchResolver = resolve({})
 
 // Schema for allowed query properties
 export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
-  '_id',
+  'id',
   'companyId',
   'company',
   'location',
