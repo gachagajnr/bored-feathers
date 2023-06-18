@@ -41,31 +41,7 @@ export const activitiesResolver = resolve({
       }
     })
   }),
-  // liked: virtual(async (activity, context) => {
-  //   const { total, data } = await context.app.service('likes').find({
-  //     query: {
-  //       activityId: activity.id,
-  //       userId: context.params.user.id,
-  //       $limit: 1,
-
-  //     }
-  //   })
-  //   if (total > 0) {
-  //     return data['0'].id
-  //   } else return ''
-  // }),
-  // saved: virtual(async (activity, context) => {
-  //   const { total, data } = await context.app.service('saves').find({
-  //     query: {
-  //       activityId: activity.id,
-  //       userId: context.params.user.id,
-  //       $limit: 1,
-  //     }
-  //   })
-  //   if (total > 0) {
-  //     return data['0'].id
-  //   } else return ''
-  // })
+ 
 })
 
 export const activitiesExternalResolver = resolve({})

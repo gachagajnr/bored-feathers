@@ -14,7 +14,7 @@ import {
 } from './activities.schema.js'
 import { ActivitiesService, getOptions } from './activities.class.js'
 import { activitiesPath, activitiesMethods } from './activities.shared.js'
-import { populateActivitiesForSaves } from '../../hooks/populate-activities-for-saves.js'
+import { showSaved } from '../../hooks/show-saved.js'
 
 export * from './activities.class.js'
 export * from './activities.schema.js'
@@ -57,7 +57,7 @@ export const activities = (app) => {
     after: {
       all: [],
       find: [
-        // populateActivitiesForSaves
+        showSaved
       ]
     },
     error: {
