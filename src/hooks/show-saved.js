@@ -28,12 +28,15 @@ export const showSaved = async (context) => {
   result.data.forEach((activity) => {
     const saved = savedActivityIds.find((item) => item.activityId === activity.id.toString())
     const liked = likedActivityIds.find((item) => item.activityId === activity.id.toString())
-
     const savedId = saved ? saved.id : ''
     const likedId = liked ? liked.id : ''
+    const isSaved = saved ? true : false
+    const isLiked = liked ? true : false
     activity.likedId = likedId
     activity.savedId = savedId
-   })
+    activity.isLiked = isLiked
+    activity.isSaved = isSaved
+  })
 
   return context
 }

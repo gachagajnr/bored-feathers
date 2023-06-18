@@ -14,7 +14,6 @@ import {
 } from './saved-activities.schema.js'
 import { SavedActivitiesService, getOptions } from './saved-activities.class.js'
 import { savedActivitiesPath, savedActivitiesMethods } from './saved-activities.shared.js'
-import { populateActivities } from '../../hooks/populate-activities.js'
 
 export * from './saved-activities.class.js'
 export * from './saved-activities.schema.js'
@@ -39,6 +38,7 @@ export const savedActivities = (app) => {
     },
     before: {
       all: [
+        // populateActivities,
         schemaHooks.validateQuery(savedActivitiesQueryValidator),
         schemaHooks.resolveQuery(savedActivitiesQueryResolver)
       ],
@@ -56,7 +56,7 @@ export const savedActivities = (app) => {
     },
     after: {
       all: [],
-      find: [populateActivities]
+      find: []
     },
     error: {
       all: []

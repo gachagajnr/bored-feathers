@@ -40,8 +40,7 @@ export const activitiesResolver = resolve({
         $select: ['email']
       }
     })
-  }),
- 
+  })
 })
 
 export const activitiesExternalResolver = resolve({})
@@ -107,17 +106,7 @@ export const activitiesQuerySchema = Type.Intersect(
   [
     querySyntax(activitiesQueryProperties),
     // Add additional query properties here
-    Type.Object(
-      {
-        // $limit: Type.Number(),
-        // $sort: { createdAt: -1 },
-        // createdAt: {
-        //   $sort: Type.Number()
-        // },
-        // $like: Type.String()
-      },
-      { additionalProperties: false }
-    )
+    Type.Object({}, { additionalProperties: false })
   ],
   { additionalProperties: false }
 )
