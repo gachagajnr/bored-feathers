@@ -72,7 +72,9 @@ export const userQueryProperties = Type.Pick(userSchema, [
   'lastName',
   'avatar',
   'phoneNumber',
-  'googleId'
+  'googleId',
+  'isOwner',
+  'company'
 ])
 export const userQuerySchema = Type.Intersect(
   [
