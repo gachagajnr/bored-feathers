@@ -1,3 +1,5 @@
+import { bucketList } from './bucket-list/bucket-list.js'
+
 import { companies } from './companies/companies.js'
 
 import { savedActivities } from './saved-activities/saved-activities.js'
@@ -11,6 +13,8 @@ import { activities } from './activities/activities.js'
 import { user } from './users/users.js'
 
 export const services = (app) => {
+  app.configure(bucketList)
+
   app.configure(companies)
 
   app.configure(savedActivities)

@@ -24,7 +24,8 @@ export const activitiesSchema = Type.Object(
     liked: Type.String(),
     saved: Type.String(),
     createdAt: Type.Number(),
-    companyId: Type.Number(),
+    parentCompany: Type.Number(),
+    creatorId: Type.Number(),
     creator: Type.String(),
     liker: Type.Ref(userSchema)
     // act: Type.Ref(activitiesSchema)
@@ -35,7 +36,7 @@ export const activitiesValidator = getValidator(activitiesSchema, dataValidator)
 export const activitiesResolver = resolve({
   creator: virtual(async (activity, context) => {
     // Associate the company that created the activity
-    return context.app.service('users').get(activity.companyId, {
+    return context.app.service('users').get(activity.creatorId, {
       query: {
         $select: ['email']
       }
@@ -68,9 +69,14 @@ export const activitiesDataSchema = Type.Pick(
 )
 export const activitiesDataValidator = getValidator(activitiesDataSchema, dataValidator)
 export const activitiesDataResolver = resolve({
-  companyId: async (_value, activity, context) => {
+  creatorId: async (_value, activity, context) => {
     // Associate the record with the id of the authenticated user
     return context.params.user.id
+    // return 1
+  },
+  parentCompany: async (_value, activity, context) => {
+    // Associate the record with the id of the authenticated user
+    return context.params.user.company
     // return 1
   },
   createdAt: async () => {
@@ -88,11 +94,12 @@ export const activitiesPatchResolver = resolve({})
 // Schema for allowed query properties
 export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'id',
-  'companyId',
+  'creatorId',
   'company',
   'location',
   'type', //indoor or outdoor activity
   'description',
+  'parentCompany',
   'coordinates',
   'isPublished',
   'participants',
@@ -112,7 +119,7 @@ export const activitiesQuerySchema = Type.Intersect(
 )
 export const activitiesQueryValidator = getValidator(activitiesQuerySchema, queryValidator)
 export const activitiesQueryResolver = resolve({
-  companyId: async (value, user, context) => {
+  creatorId: async (value, user, context) => {
     // We want to be able to find all messages but
     // only let a user modify their own messages otherwise
     if (context.params.user && context.method !== 'find') {
