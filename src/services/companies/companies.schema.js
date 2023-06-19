@@ -41,7 +41,16 @@ export const companiesDataSchema = Type.Pick(
   }
 )
 export const companiesDataValidator = getValidator(companiesDataSchema, dataValidator)
-export const companiesDataResolver = resolve({})
+export const companiesDataResolver = resolve({
+  owner: async (_value, activity, context) => {
+    // Associate the record with the id of the authenticated user
+    return context.params.user.id
+    // return 1
+  },
+  createdAt: async () => {
+    return Date.now()
+  }
+})
 
 // Schema for updating existing entries
 export const companiesPatchSchema = Type.Partial(companiesSchema, {
