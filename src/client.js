@@ -1,6 +1,12 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { mailerClient } from './services/mailer/mailer.shared.js'
+
+import { authManagementClient } from './services/auth-management/auth-management.shared.js'
+
+import { authManagementClient } from './services/y/y.shared.js'
+
 import { bucketListClient } from './services/bucket-list/bucket-list.shared.js'
 
 import { companiesClient } from './services/companies/companies.shared.js'
@@ -43,6 +49,12 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(companiesClient)
 
   client.configure(bucketListClient)
+
+  client.configure(authManagementClient)
+
+  client.configure(authManagementClient)
+
+  client.configure(mailerClient)
 
   return client
 }

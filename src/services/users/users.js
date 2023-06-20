@@ -18,6 +18,20 @@ import { userPath, userMethods } from './users.shared.js'
 export * from './users.class.js'
 export * from './users.schema.js'
 
+import { addVerification, removeVerification } from 'feathers-authentication-management'
+import notifier from '../auth-management/notifier.js'
+import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common'
+
+const sendVerify = () => {
+  return async (context) => {
+    const notifier = notifier(context.app)
+
+    const users = Array.isArray(context.result) ? context.result : [context.result]
+
+    await Promise.all(users.map(async (user) => notifier('resendVerifySignup', user)))
+  }
+}
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
   // Register our service on the Feathers application
@@ -42,12 +56,35 @@ export const user = (app) => {
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(userDataValidator), schemaHooks.resolveData(userDataResolver)],
-      patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
+      create: [
+        schemaHooks.validateData(userDataValidator),
+        schemaHooks.resolveData(userDataResolver),
+        addVerification('auth-management')
+      ],
+      update: [disallow('external')],
+      patch: [
+        iff(
+          isProvider('external'),
+          preventChanges(
+            true,
+            'isVerified',
+            'resetExpires',
+            'resetShortToken',
+            'resetToken',
+            'verifyChanges',
+            'verifyExpires',
+            'verifyShortToken',
+            'verifyToken'
+          )
+        ),
+        schemaHooks.validateData(userPatchValidator),
+        schemaHooks.resolveData(userPatchResolver)
+      ],
       remove: []
     },
     after: {
-      all: []
+      all: [],
+      create: [sendVerify(), removeVerification()]
     },
     error: {
       all: []
