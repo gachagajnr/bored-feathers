@@ -24,7 +24,7 @@ import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common
 
 const sendVerify = () => {
   return async (context) => {
-    const notifier = notifier(context.app)
+    // const notifier = notifier(context.app)
 
     const users = Array.isArray(context.result) ? context.result : [context.result]
 
