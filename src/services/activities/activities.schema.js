@@ -28,6 +28,7 @@ export const activitiesSchema = Type.Object(
     parentCompany: Type.Number(),
     creatorId: Type.Number(),
     creator: Type.String(),
+    companyPhone: Type.String(),
     liker: Type.Ref(userSchema)
     // act: Type.Ref(activitiesSchema)
   },
@@ -81,6 +82,7 @@ export const activitiesDataResolver = resolve({
     return context.params.user.company
     // return 1
   },
+
   createdAt: async () => {
     return Date.now()
   }
@@ -131,3 +133,16 @@ export const activitiesQueryResolver = resolve({
     return value
   }
 })
+
+
+ //  companyPhone: virtual(async (activity, context) => {
+  //   // Associate the record with the id of the authenticated user
+  //   return context.app.service('companies').find({
+  //     query: {
+  //       id: activity.parentCompany,
+  //       $select: ['companyPhone'],
+  //       $limit: 1
+  //     }
+  //   })
+  //   // return 1
+  // }),

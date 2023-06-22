@@ -28,6 +28,14 @@ export default function notifier(app) {
         subject: 'E-Mail address verified',
         text: 'Registration process complete. Thanks for joining us!'
       })
+    } else if (type === 'forgotPassword') {
+      return sendEmail({
+        from: 'test@localhost',
+        to: user.email,
+        subject: 'Reset Password Requested',
+        text: 'Use this code to reset your password!'
+      })
     }
+
   }
 }

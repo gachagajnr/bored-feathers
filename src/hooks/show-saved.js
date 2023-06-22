@@ -23,7 +23,18 @@ export const showSaved = async (context) => {
       $select: ['activityId', 'id']
     }
   })
+  const activityIds = result.data.map((activity) => activity.parentCompany)
 
+  const companyPhones = await context.app.service('companies').find({
+    query: {
+      id: { $in: activityIds },
+      $select: ['companyPhone', 'id']
+    }
+  })
+
+  const companyPhonesIds = companyPhones.data.map((co) => {
+    return { id: co.id.toString(), phone: co.companyPhone }
+  })
   const likedActivityIds = likedIds.data.map((like) => {
     return { id: like.id.toString(), activityId: like.activityId }
   })
@@ -40,7 +51,7 @@ export const showSaved = async (context) => {
     const saved = savedActivityIds.find((item) => item.activityId === activity.id.toString())
     const liked = likedActivityIds.find((item) => item.activityId === activity.id.toString())
     const bucket = bucketActivityIds.find((item) => item.activityId === activity.id.toString())
-
+    const phone = companyPhonesIds.find((company) => company.id === activity.parentCompany)
     const savedId = saved ? saved.id : ''
     const likedId = liked ? liked.id : ''
     const bucketId = bucket ? bucket.id : ''
@@ -55,6 +66,7 @@ export const showSaved = async (context) => {
     activity.isSaved = isSaved
     activity.bucketId = bucketId
     activity.isBucket = isBucket
+    activity.companyPhone = phone.phone
   })
 
   return context
