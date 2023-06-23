@@ -2,28 +2,43 @@ import { virtual, resolve } from '@feathersjs/schema'
 
 export const showSaved = async (context) => {
   const { result, user } = context
+  const { id: userId } = context.params.user // Replace '_id' with the actual user ID field
 
   const savedIds = await context.app.service('saves').find({
     query: {
-      userId: context.params.user.id, // Replace '_id' with the actual user ID field
+      userId,
       $select: ['activityId', 'id']
     }
   })
 
   const likedIds = await context.app.service('likes').find({
     query: {
-      userId: context.params.user.id, // Replace '_id' with the actual user ID field
+      userId,
+      $select: ['activityId', 'id']
+    }
+  })
+
+  const allLikedIds = await context.app.service('likes').find({
+    query: {
+      $select: ['activityId', 'id']
+    }
+  })
+
+  const allSavedIds = await context.app.service('saves').find({
+    query: {
       $select: ['activityId', 'id']
     }
   })
 
   const bucketIds = await context.app.service('bucket-list').find({
     query: {
-      userId: context.params.user.id, // Replace '_id' with the actual user ID field
+      userId,
       $select: ['activityId', 'id']
     }
   })
+
   const activityIds = result.data.map((activity) => activity.parentCompany)
+  const allActivityIds = result.data.map((activity) => activity.id)
 
   const companyPhones = await context.app.service('companies').find({
     query: {
@@ -32,26 +47,52 @@ export const showSaved = async (context) => {
     }
   })
 
-  const companyPhonesIds = companyPhones.data.map((co) => {
-    return { id: co.id.toString(), phone: co.companyPhone }
-  })
-  const likedActivityIds = likedIds.data.map((like) => {
-    return { id: like.id.toString(), activityId: like.activityId }
-  })
+  const companyPhonesIds = companyPhones.data.map((co) => ({
+    id: co.id.toString(),
+    phone: co.companyPhone
+  }))
 
-  const savedActivityIds = savedIds.data.map((saved) => {
-    return { id: saved.id.toString(), activityId: saved.activityId }
-  })
+  const likedActivityIds = likedIds.data.map((like) => ({
+    id: like.id.toString(),
+    activityId: like.activityId
+  }))
 
-  const bucketActivityIds = bucketIds.data.map((bucket) => {
-    return { id: bucket.id.toString(), activityId: bucket.activityId }
-  })
+  const savedActivityIds = savedIds.data.map((saved) => ({
+    id: saved.id.toString(),
+    activityId: saved.activityId
+  }))
+
+  const bucketActivityIds = bucketIds.data.map((bucket) => ({
+    id: bucket.id.toString(),
+    activityId: bucket.activityId
+  }))
+
+  function findActivityIdWithOccurrences(arr1, arr2, minimumOccurrences) {
+    const allItems = arr1.concat(arr2) // Combine the two arrays into one
+    const occurrences = {} // Track the count of each activityId
+
+    for (let item of allItems) {
+      const activityId = item.activityId
+      occurrences[activityId] = (occurrences[activityId] || 0) + 1 // Increment the count for each activityId
+    }
+
+    const activityIdsWithOccurrences = Object.keys(occurrences).filter(
+      (activityId) => occurrences[activityId] >= minimumOccurrences
+    )
+    return activityIdsWithOccurrences
+  }
+
+  const mostpopular = findActivityIdWithOccurrences(allLikedIds.data, allSavedIds.data, 2)
+
 
   result.data.forEach((activity) => {
     const saved = savedActivityIds.find((item) => item.activityId === activity.id.toString())
     const liked = likedActivityIds.find((item) => item.activityId === activity.id.toString())
     const bucket = bucketActivityIds.find((item) => item.activityId === activity.id.toString())
     const phone = companyPhonesIds.find((company) => company.id === activity.parentCompany)
+
+    const popular= mostpopular.includes( activity.id.toString())
+// console.log("is popular",popular)
     const savedId = saved ? saved.id : ''
     const likedId = liked ? liked.id : ''
     const bucketId = bucket ? bucket.id : ''
@@ -59,6 +100,8 @@ export const showSaved = async (context) => {
     const isSaved = saved ? true : false
     const isLiked = liked ? true : false
     const isBucket = bucket ? true : false
+
+    activity.isPopular = popular ? true : false
 
     activity.likedId = likedId
     activity.savedId = savedId

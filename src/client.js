@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { popularTrendsClient } from './services/popular-trends/popular-trends.shared.js'
+
 import { mailerClient } from './services/mailer/mailer.shared.js'
 
 import { authManagementClient } from './services/auth-management/auth-management.shared.js'
@@ -55,6 +57,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(authManagementClient)
 
   client.configure(mailerClient)
+
+  client.configure(popularTrendsClient)
 
   return client
 }
