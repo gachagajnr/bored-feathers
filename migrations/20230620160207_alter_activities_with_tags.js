@@ -4,7 +4,7 @@
  */
 export async function up(knex) {
   await knex.schema.alterTable('activities', (table) => {
-    table.specificType('tags', 'varchar[]').defaultTo({})
+    table.specificType('tags', 'varchar[]').defaultTo()
   })
 }
 

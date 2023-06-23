@@ -18,7 +18,7 @@ export const activitiesSchema = Type.Object(
     coordinates: Type.String(),
     participants: Type.Array(),
     prices: Type.Array(),
-    tags: Type.Array(),
+    tag: Type.String(),
     duration: Type.String(),
     requirements: Type.String(),
     tips: Type.String(),
@@ -57,7 +57,7 @@ export const activitiesDataSchema = Type.Pick(
     'location',
     'description',
     'type',
-    'tags',
+    'tag',
     'isPublished',
     'coordinates',
     'participants',
@@ -105,7 +105,7 @@ export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'description',
   'parentCompany',
   'coordinates',
-  'tags',
+  'tag',
   'isPublished',
   'participants',
   'prices',
@@ -118,7 +118,13 @@ export const activitiesQuerySchema = Type.Intersect(
   [
     querySyntax(activitiesQueryProperties),
     // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
+    Type.Object(
+      {
+        // arrayField: { $in: Type.Array(Type.String()) },
+        // $select: Type.Array(Type.String())
+      },
+      { additionalProperties: false }
+    )
   ],
   { additionalProperties: false }
 )
@@ -134,15 +140,14 @@ export const activitiesQueryResolver = resolve({
   }
 })
 
-
- //  companyPhone: virtual(async (activity, context) => {
-  //   // Associate the record with the id of the authenticated user
-  //   return context.app.service('companies').find({
-  //     query: {
-  //       id: activity.parentCompany,
-  //       $select: ['companyPhone'],
-  //       $limit: 1
-  //     }
-  //   })
-  //   // return 1
-  // }),
+//  companyPhone: virtual(async (activity, context) => {
+//   // Associate the record with the id of the authenticated user
+//   return context.app.service('companies').find({
+//     query: {
+//       id: activity.parentCompany,
+//       $select: ['companyPhone'],
+//       $limit: 1
+//     }
+//   })
+//   // return 1
+// }),

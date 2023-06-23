@@ -21,6 +21,7 @@ const formats = [
   'companyBio',
   'by',
   'type',
+  'tag',
   'coordinates',
   'participants',
   'prices',
