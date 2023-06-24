@@ -82,7 +82,11 @@ export const showSaved = async (context) => {
     return activityIdsWithOccurrences
   }
 
-  const mostpopular = findActivityIdWithOccurrences(allLikedIds.data, allSavedIds.data, 2)
+  const mostpopular = findActivityIdWithOccurrences(
+    allLikedIds.data,
+    allSavedIds.data,
+    process.env.MINIMUM_OCCURRENCES
+  )
 
 
   result.data.forEach((activity) => {
@@ -92,7 +96,6 @@ export const showSaved = async (context) => {
     const phone = companyPhonesIds.find((company) => company.id === activity.parentCompany)
 
     const popular= mostpopular.includes( activity.id.toString())
-// console.log("is popular",popular)
     const savedId = saved ? saved.id : ''
     const likedId = liked ? liked.id : ''
     const bucketId = bucket ? bucket.id : ''

@@ -1,7 +1,7 @@
 // services/auth-management/notifier.js
 export default function notifier(app) {
   function getLink(type, hash) {
-    return 'http://localhost:3030/' + type + '?token=' + hash
+    return process.env.APP_URL + type + '?token=' + hash
   }
 
   async function sendEmail(email) {
@@ -13,29 +13,59 @@ export default function notifier(app) {
     }
   }
 
-  return (type, user, notifierOptions = {}) => {
-    if (type === 'resendVerifySignup') {
-      return sendEmail({
-        from: 'test@localhost',
-        to: user.email,
-        subject: 'Please confirm your e-mail address',
-        text: 'Click here: ' + getLink('verify', user.verifyToken)
-      })
-    } else if (type === 'verifySignup') {
-      return sendEmail({
-        from: 'test@localhost',
-        to: user.email,
-        subject: 'E-Mail address verified',
-        text: 'Registration process complete. Thanks for joining us!'
-      })
-    } else if (type === 'forgotPassword') {
-      return sendEmail({
-        from: 'test@localhost',
-        to: user.email,
-        subject: 'Reset Password Requested',
-        text: 'Use this code to reset your password!'
-      })
-    }
+ return {
+   notifier: function (type, user, notifierOptions) {
+     let tokenLink
+     let email
+     switch (type) {
+       case 'resendVerifySignup': //sending the user the verification email
+         tokenLink = getLink('verify', user.verifyToken)
+         email = {
+           from: process.env.FROM_EMAIL,
+           to: user.email,
+           subject: 'Verify Signup',
+           html: tokenLink
+         }
+         return sendEmail(email)
+         break
 
-  }
+       case 'verifySignup': // confirming verification
+         tokenLink = getLink('verify', user.verifyToken)
+         email = {
+           from: process.env.FROM_EMAIL,
+           to: user.email,
+           subject: 'Confirm Signup',
+           html: 'Thanks for verifying your email'
+         }
+         return sendEmail(email)
+         break
+
+       case 'sendResetPwd':
+         tokenLink = getLink('reset', user.resetToken)
+         email = {}
+         return sendEmail(email)
+         break
+
+       case 'resetPwd':
+         tokenLink = getLink('reset', user.resetToken)
+         email = {}
+         return sendEmail(email)
+         break
+
+       case 'passwordChange':
+         email = {}
+         return sendEmail(email)
+         break
+
+       case 'identityChange':
+         tokenLink = getLink('verifyChanges', user.verifyToken)
+         email = {}
+         return sendEmail(email)
+         break
+
+       default:
+         break
+     }
+   }
+ }
 }
