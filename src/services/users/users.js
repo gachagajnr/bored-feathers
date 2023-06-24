@@ -19,13 +19,12 @@ export * from './users.class.js'
 export * from './users.schema.js'
 
 import { addVerification, removeVerification } from 'feathers-authentication-management'
-import notifier from '../auth-management/notifier.js'
+import authNotifier from '../auth-management/notifier.js'
 import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common'
 
 const sendVerify = () => {
   return async (context) => {
-    // const notifier = notifier(context.app)
-
+    const notifier = authNotifier(context.app)
     const users = Array.isArray(context.result) ? context.result : [context.result]
 
     await Promise.all(users.map(async (user) => notifier('resendVerifySignup', user)))
