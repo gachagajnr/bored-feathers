@@ -29,14 +29,9 @@ export const mailer = async(app) => {
 
   app.use('mailer', aMailer(transporter, { from: account.user }))
 
-  // Use the service
-  const email = {
-    to: 'president@mars.com',
-    subject: 'SMTP test',
-    html: 'This is the email body'
-  }
 
-  await app.service('mailer').create(email)
+
+  await app.service('mailer')
   // Initialize hooks
   app.service(mailerPath).hooks({
     around: {

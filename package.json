@@ -68,6 +68,7 @@
     "feathers-mailer": "^4.1.1",
     "knex": "^2.4.2",
     "nodemailer": "^6.9.3",
+    "nodemailer-mandrill-transport": "^1.2.0",
     "pg": "8.10.0",
     "winston": "^3.9.0"
   },
