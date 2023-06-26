@@ -11,7 +11,7 @@ export const savesSchema = Type.Object(
     userId: Type.Number(),
     user: Type.Ref(userSchema),
     activityId: Type.Number(),
-    activity: Type.Ref(activitiesSchema)
+    // activity: Type.Ref(activitiesSchema)
   },
   { $id: 'Saves', additionalProperties: false }
 )
@@ -23,10 +23,10 @@ export const savesResolver = resolve({
   //     $select: ['email']
   //   })
   // })
-  activity: virtual(async (saves, context) => {
-    // Associate the company that created the activity
-    return context.app.service('activities').get(saves.activityId)
-  })
+  // activity: virtual(async (saves, context) => {
+  //   // Associate the company that created the activity
+  //   return context.app.service('activities').get(saves.activityId)
+  // })
 })
 
 export const savesExternalResolver = resolve({})

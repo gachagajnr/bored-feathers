@@ -18,7 +18,16 @@ export const userSchema = Type.Object(
     phoneNumber: Type.String(),
     avatar: Type.Optional(Type.String()),
     password: Type.Optional(Type.String()),
-    googleId: Type.Optional(Type.String())
+    googleId: Type.Optional(Type.String()),
+    isVerified: Type.Boolean(),
+    verifyExpires: Type.Optional(),
+    verifyChanges: Type.Optional(),
+    resetAttempts: Type.Number(),
+    resetExpires: Type.Optional(),
+    resetShortToken: Type.Optional(),
+    resetToken: Type.Optional(),
+    verifyShortToken: Type.Optional(),
+    verifyToken: Type.Optional()
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -71,10 +80,27 @@ export const userQueryProperties = Type.Pick(userSchema, [
   'firstName',
   'lastName',
   'avatar',
+  'isVerified',
   'phoneNumber',
   'googleId',
   'isOwner',
-  'company'
+  'company',
+  'verifyExpires',
+  'verifyChanges',
+  'resetAttempts',
+  'resetExpires',
+  'resetShortToken',
+  'resetToken',
+  'verifyShortToken',
+  'verifyToken'
+  // verifyExpires
+  //   verifyChanges
+  //   resetAttempts
+  //   resetExpires
+  //   resetShortToken
+  //   resetToken
+  //   verifyShortToken
+  //   verifyToken
 ])
 export const userQuerySchema = Type.Intersect(
   [

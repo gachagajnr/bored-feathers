@@ -57,7 +57,7 @@ export const activities = (app) => {
     after: {
       all: [],
       find: [showSaved],
-      get: []
+      get: [showSaved]
     },
     error: {
       all: []

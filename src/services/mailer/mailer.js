@@ -1,6 +1,8 @@
 import { MailerService, getOptions } from './mailer.class.js'
 import { mailerPath, mailerMethods } from './mailer.shared.js'
 import aMailer from 'feathers-mailer'
+import { disallow } from 'feathers-hooks-common'
+
 import nodemailer from 'nodemailer'
 
 import mandrillTransport from 'nodemailer-mandrill-transport'
@@ -27,7 +29,7 @@ export const mailer = async (app) => {
       all: []
     },
     before: {
-      all: [],
+      all: [disallow('external')],
       find: [],
       get: [],
       create: [],

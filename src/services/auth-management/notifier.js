@@ -17,7 +17,7 @@ export default (app) => {
   return (type, user, notifierOptions = {}) => {
     let tokenLink
     let email
-     switch (type) {
+    switch (type) {
       case 'resendVerifySignup': //sending the user the verification email
         tokenLink = getLink('verify', user.verifyToken)
         email = {

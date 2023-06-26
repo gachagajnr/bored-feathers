@@ -2,18 +2,18 @@ import { virtual, resolve } from '@feathersjs/schema'
 
 export const showSaved = async (context) => {
   const { result, user } = context
-  const { id: userId } = context.params.user // Replace '_id' with the actual user ID field
-
+  // const userId = context.params.user.id // Replace '_id' with the actual user ID field
+// console.log(user)
   const savedIds = await context.app.service('saves').find({
     query: {
-      userId,
+      userId: context.params.user.id,
       $select: ['activityId', 'id']
     }
   })
 
   const likedIds = await context.app.service('likes').find({
     query: {
-      userId,
+      userId: context.params.user.id,
       $select: ['activityId', 'id']
     }
   })
@@ -32,7 +32,7 @@ export const showSaved = async (context) => {
 
   const bucketIds = await context.app.service('bucket-list').find({
     query: {
-      userId,
+      userId: context.params.user.id,
       $select: ['activityId', 'id']
     }
   })

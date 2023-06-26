@@ -1,6 +1,5 @@
 export const preventSavingDuplicate = async (context) => {
-
-   const { total } = await context.service.find({
+    const { total } = await context.service.find({
     query: {
       userId: context.params.user.id,
       activityId: context.data.activityId,
