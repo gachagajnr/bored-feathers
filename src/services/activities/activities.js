@@ -43,18 +43,18 @@ export const activities = (app) => {
         schemaHooks.resolveQuery(activitiesQueryResolver)
       ],
       find: [],
-      get: [],
+      get: [authenticate('jwt')],
       create: [
         authenticate('jwt'),
-
         schemaHooks.validateData(activitiesDataValidator),
         schemaHooks.resolveData(activitiesDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(activitiesPatchValidator),
         schemaHooks.resolveData(activitiesPatchResolver)
       ],
-      remove: []
+      remove: [authenticate('jwt')]
     },
     after: {
       all: [],
