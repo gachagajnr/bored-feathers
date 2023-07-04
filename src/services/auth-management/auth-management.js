@@ -13,7 +13,8 @@ export const authManagement = (app) => {
     '/auth-management',
     new AuthenticationManagementService(app, {
       notifier: notifier(app),
-      identifyUserProps: ['email']
+      identifyUserProps: ['email'],
+      
     })
   )
   // app.configure(authManagement(notifier(app)))

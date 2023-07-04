@@ -6,9 +6,10 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 import configuration from '@feathersjs/configuration'
 
-
 import { configurationValidator } from './configuration.js'
 import { logError } from './hooks/log-error.js'
+import { errorHandling } from './hooks/error-handling.js'
+
 import { postgresql } from './postgresql.js'
 
 import { authentication } from './authentication.js'
@@ -47,7 +48,7 @@ app.configure(services)
 // Register hooks that run on all service methods
 app.hooks({
   around: {
-    all: [logError]
+    all: [logError,]
   },
   before: {},
   after: {},

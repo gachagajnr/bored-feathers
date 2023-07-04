@@ -32,7 +32,7 @@ export const activities = (app) => {
   app.service(activitiesPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
+        // authenticate('jwt'),
         schemaHooks.resolveExternal(activitiesExternalResolver),
         schemaHooks.resolveResult(activitiesResolver)
       ]
@@ -45,6 +45,8 @@ export const activities = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
+
         schemaHooks.validateData(activitiesDataValidator),
         schemaHooks.resolveData(activitiesDataResolver)
       ],
