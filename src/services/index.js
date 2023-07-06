@@ -1,4 +1,5 @@
- 
+import { events } from './events/events.js'
+
 import { mailer } from './mailer/mailer.js'
 
 import { authManagement } from './auth-management/auth-management.js'
@@ -18,7 +19,8 @@ import { user } from './users/users.js'
 // const authManagement = from './auth-management/auth-management.service.js'
 
 export const services = (app) => {
- 
+  app.configure(events)
+
   app.configure(mailer)
 
   app.configure(authManagement)
