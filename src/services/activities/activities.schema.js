@@ -75,13 +75,11 @@ export const activitiesDataResolver = resolve({
   creatorId: async (_value, activity, context) => {
     // Associate the record with the id of the authenticated user
     return context.params.user.id
-    // return 1
-  },
+   },
   parentCompany: async (_value, activity, context) => {
     // Associate the record with the id of the authenticated user
     return context.params.user.company
-    // return 1
-  },
+   },
 
   createdAt: async () => {
     return Date.now()
@@ -101,7 +99,7 @@ export const activitiesQueryProperties = Type.Pick(activitiesSchema, [
   'creatorId',
   'company',
   'location',
-  'type', //indoor or outdoor activity
+  'type', 
   'description',
   'parentCompany',
   'coordinates',
@@ -140,14 +138,3 @@ export const activitiesQueryResolver = resolve({
   }
 })
 
-//  companyPhone: virtual(async (activity, context) => {
-//   // Associate the record with the id of the authenticated user
-//   return context.app.service('companies').find({
-//     query: {
-//       id: activity.parentCompany,
-//       $select: ['companyPhone'],
-//       $limit: 1
-//     }
-//   })
-//   // return 1
-// }),

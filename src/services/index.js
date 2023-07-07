@@ -1,3 +1,5 @@
+import { socialLinks } from './social-links/social-links.js'
+
 import { events } from './events/events.js'
 
 import { mailer } from './mailer/mailer.js'
@@ -19,6 +21,8 @@ import { user } from './users/users.js'
 // const authManagement = from './auth-management/auth-management.service.js'
 
 export const services = (app) => {
+  app.configure(socialLinks)
+
   app.configure(events)
 
   app.configure(mailer)

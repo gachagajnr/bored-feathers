@@ -4,39 +4,33 @@ import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 
 // Main data model schema
-export const eventsSchema = Type.Object(
+export const socialLinksSchema = Type.Object(
   {
     id: Type.Number(),
-    name: Type.String(),
-    date: Type.Number(),
-    venue: Type.String(),
-    fee: Type.String(),
-    info: Type.String(),
-    sponsors: Type.String(),
-    coordinates: Type.String(),
-    createdAt: Type.Number(),
+    facebook: Type.String(),
+    instagram: Type.String(),
+    twitter: Type.String(),
+    linkedin: Type.String(),
     parentCompany: Type.Number(),
     creatorId: Type.Number()
   },
-  { $id: 'Events', additionalProperties: false }
+  { $id: 'SocialLinks', additionalProperties: false }
 )
-export const eventsValidator = getValidator(eventsSchema, dataValidator)
-export const eventsResolver = resolve({
- 
-})
+export const socialLinksValidator = getValidator(socialLinksSchema, dataValidator)
+export const socialLinksResolver = resolve({})
 
-export const eventsExternalResolver = resolve({})
+export const socialLinksExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const eventsDataSchema = Type.Pick(
-  eventsSchema,
-  ['name', 'date', 'venue', 'fee', 'info', 'coordinates', 'sponsors'],
+export const socialLinksDataSchema = Type.Pick(
+  socialLinksSchema,
+  ['instagram', 'facebook', 'twitter', 'linkedin'],
   {
-    $id: 'EventsData'
+    $id: 'SocialLinksData'
   }
 )
-export const eventsDataValidator = getValidator(eventsDataSchema, dataValidator)
-export const eventsDataResolver = resolve({
+export const socialLinksDataValidator = getValidator(socialLinksDataSchema, dataValidator)
+export const socialLinksDataResolver = resolve({
   creatorId: async (_value, activity, context) => {
     // Associate the record with the id of the authenticated user
     return context.params.user.id
@@ -52,33 +46,30 @@ export const eventsDataResolver = resolve({
 })
 
 // Schema for updating existing entries
-export const eventsPatchSchema = Type.Partial(eventsSchema, {
-  $id: 'EventsPatch'
+export const socialLinksPatchSchema = Type.Partial(socialLinksSchema, {
+  $id: 'SocialLinksPatch'
 })
-export const eventsPatchValidator = getValidator(eventsPatchSchema, dataValidator)
-export const eventsPatchResolver = resolve({})
+export const socialLinksPatchValidator = getValidator(socialLinksPatchSchema, dataValidator)
+export const socialLinksPatchResolver = resolve({})
 
 // Schema for allowed query properties
-export const eventsQueryProperties = Type.Pick(eventsSchema, [
+export const socialLinksQueryProperties = Type.Pick(socialLinksSchema, [
   'id',
-  'name',
-  'date',
-  'venue',
-  'fee',
-  'info',
-  'coordinates',
-  'sponsors'
+  'instagram',
+  'facebook',
+  'twitter',
+  'linkedin'
 ])
-export const eventsQuerySchema = Type.Intersect(
+export const socialLinksQuerySchema = Type.Intersect(
   [
-    querySyntax(eventsQueryProperties),
+    querySyntax(socialLinksQueryProperties),
     // Add additional query properties here
     Type.Object({}, { additionalProperties: false })
   ],
   { additionalProperties: false }
 )
-export const eventsQueryValidator = getValidator(eventsQuerySchema, queryValidator)
-export const eventsQueryResolver = resolve({
+export const socialLinksQueryValidator = getValidator(socialLinksQuerySchema, queryValidator)
+export const socialLinksQueryResolver = resolve({
   creatorId: async (value, user, context) => {
     // We want to be able to find all messages but
     // only let a user modify their own messages otherwise

@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { socialLinksClient } from './services/social-links/social-links.shared.js'
+
 import { eventsClient } from './services/events/events.shared.js'
 
 import { popularTrendsClient } from './services/popular-trends/popular-trends.shared.js'
@@ -63,6 +65,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(popularTrendsClient)
 
   client.configure(eventsClient)
+
+  client.configure(socialLinksClient)
 
   return client
 }
