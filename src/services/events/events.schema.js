@@ -66,6 +66,7 @@ export const eventsQueryProperties = Type.Pick(eventsSchema, [
   'venue',
   'fee',
   'info',
+  'parentCompany',
   'coordinates',
   'sponsors'
 ])
