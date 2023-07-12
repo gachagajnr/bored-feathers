@@ -11,6 +11,8 @@ export const eventsSchema = Type.Object(
     date: Type.Number(),
     venue: Type.String(),
     fee: Type.String(),
+    tag: Type.String(),
+    type: Type.String(),
     info: Type.String(),
     sponsors: Type.String(),
     coordinates: Type.String(),
@@ -30,7 +32,7 @@ export const eventsExternalResolver = resolve({})
 // Schema for creating new entries
 export const eventsDataSchema = Type.Pick(
   eventsSchema,
-  ['name', 'date', 'venue', 'fee', 'info', 'coordinates', 'sponsors'],
+  ['name', 'date','tag','type', 'venue', 'fee', 'info', 'coordinates', 'sponsors'],
   {
     $id: 'EventsData'
   }
@@ -65,6 +67,8 @@ export const eventsQueryProperties = Type.Pick(eventsSchema, [
   'date',
   'venue',
   'fee',
+  'tag',
+  'type',
   'info',
   'parentCompany',
   'coordinates',

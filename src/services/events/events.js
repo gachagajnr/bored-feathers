@@ -14,6 +14,7 @@ import {
 } from './events.schema.js'
 import { EventsService, getOptions } from './events.class.js'
 import { eventsPath, eventsMethods } from './events.shared.js'
+import { showSaved } from '../../hooks/show-saved.js'
 
 export * from './events.class.js'
 export * from './events.schema.js'
