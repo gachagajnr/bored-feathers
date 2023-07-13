@@ -46,7 +46,9 @@ export const events = (app) => {
       remove: []
     },
     after: {
-      all: []
+      all: [],
+      find: [showSaved],
+      get: [showSaved]
     },
     error: {
       all: []

@@ -1,5 +1,5 @@
 // // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve } from '@feathersjs/schema'
+import { resolve,virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 
@@ -15,6 +15,7 @@ export const eventsSchema = Type.Object(
     type: Type.String(),
     info: Type.String(),
     sponsors: Type.String(),
+    company: Type.String(),
     coordinates: Type.String(),
     createdAt: Type.Number(),
     parentCompany: Type.Number(),
@@ -24,7 +25,14 @@ export const eventsSchema = Type.Object(
 )
 export const eventsValidator = getValidator(eventsSchema, dataValidator)
 export const eventsResolver = resolve({
- 
+  company: virtual(async (event, context) => {
+    // Associate the company that created the activity
+    return context.app.service('companies').get(event.parentCompany, {
+      query: {
+        $select: ['companyName']
+      }
+    })
+  })
 })
 
 export const eventsExternalResolver = resolve({})
