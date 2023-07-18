@@ -19,7 +19,7 @@ const formats = [
   'companyTown',
   'companyStreet',
   'companyBio',
-  // 'by',
+   
   'type',
   'tag',
   'coordinates',
