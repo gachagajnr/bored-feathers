@@ -15,8 +15,7 @@ import {
 import { SavesService, getOptions } from './saves.class.js'
 import { savesPath, savesMethods } from './saves.shared.js'
 import { preventSavingDuplicate } from '../../hooks/prevent-saving-duplicate.js'
-import { populateActivitiesForSaves } from '../../hooks/populate-activities-for-saves.js'
-
+ 
 export * from './saves.class.js'
 export * from './saves.schema.js'
 
@@ -53,8 +52,7 @@ export const saves = (app) => {
     after: {
       all: [],
       find: [
-        // populateActivitiesForSaves
-      ]
+       ]
     },
     error: {
       all: []

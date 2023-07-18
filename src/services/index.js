@@ -1,3 +1,9 @@
+import { bucketListEvents } from './bucket-list-events/bucket-list-events.js'
+
+import { likedEvents } from './liked-events/liked-events.js'
+
+import { savedEvents } from './saved-events/saved-events.js'
+
 import { socialLinks } from './social-links/social-links.js'
 
 import { events } from './events/events.js'
@@ -21,6 +27,12 @@ import { user } from './users/users.js'
 // const authManagement = from './auth-management/auth-management.service.js'
 
 export const services = (app) => {
+  app.configure(bucketListEvents)
+
+  app.configure(likedEvents)
+
+  app.configure(savedEvents)
+
   app.configure(socialLinks)
 
   app.configure(events)

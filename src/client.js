@@ -1,6 +1,12 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { bucketListEventsClient } from './services/bucket-list-events/bucket-list-events.shared.js'
+
+import { likedEventsClient } from './services/liked-events/liked-events.shared.js'
+
+import { savedEventsClient } from './services/saved-events/saved-events.shared.js'
+
 import { socialLinksClient } from './services/social-links/social-links.shared.js'
 
 import { eventsClient } from './services/events/events.shared.js'
@@ -67,6 +73,12 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(eventsClient)
 
   client.configure(socialLinksClient)
+
+  client.configure(savedEventsClient)
+
+  client.configure(likedEventsClient)
+
+  client.configure(bucketListEventsClient)
 
   return client
 }
