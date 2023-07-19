@@ -15,7 +15,7 @@ import {
 import { CompaniesService, getOptions } from './companies.class.js'
 import { companiesPath, companiesMethods } from './companies.shared.js'
 import { attachCompanyIdToUserOwner } from '../../hooks/attach-company-id-to-user-owner.js'
-
+ 
 export * from './companies.class.js'
 export * from './companies.schema.js'
 
@@ -56,8 +56,8 @@ export const companies = (app) => {
     },
     after: {
       all: [],
-      create: [attachCompanyIdToUserOwner]
-    },
+      create: [attachCompanyIdToUserOwner],
+     },
     error: {
       all: []
     }

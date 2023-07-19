@@ -58,7 +58,8 @@ export const socialLinksQueryProperties = Type.Pick(socialLinksSchema, [
   'instagram',
   'facebook',
   'twitter',
-  'linkedin'
+  'linkedin',
+  'parentCompany'
 ])
 export const socialLinksQuerySchema = Type.Intersect(
   [

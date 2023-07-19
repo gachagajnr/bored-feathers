@@ -1,5 +1,5 @@
 // // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve } from '@feathersjs/schema'
+import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userSchema } from '../users/users.schema.js'
@@ -25,9 +25,15 @@ export const companiesResolver = resolve({
     // Associate the record with the id of the authenticated user
     return context.params.user.id
   },
-  createdAt: async () => {
-    return Date.now()
-  }
+  socials: virtual(async (company, context) => {
+    // Associate the company that created the activity
+    return context.app.service('social-links').find({
+      query: {
+        parentCompany: company.id,
+        $select: ['instagram','facebook', 'twitter', 'linkedin']
+      }
+    })
+  })
 })
 
 export const companiesExternalResolver = resolve({})
