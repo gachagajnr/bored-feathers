@@ -10,7 +10,7 @@ export const savedEventsSchema = Type.Object(
     id: Type.Number(),
     userId: Type.Number(),
     user: Type.Ref(userSchema),
-    activityId: Type.Number()
+   eventId: Type.Number()
   },
   { $id: 'SavedEvents', additionalProperties: false }
 )

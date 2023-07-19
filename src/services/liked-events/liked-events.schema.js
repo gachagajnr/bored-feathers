@@ -10,7 +10,7 @@ export const likedEventsSchema = Type.Object(
     id: Type.Number(),
     userId: Type.Number(),
     user: Type.Ref(userSchema),
-    activityId: Type.Number()
+    eventId: Type.Number()
   },
   { $id: 'LikedEvents', additionalProperties: false }
 )

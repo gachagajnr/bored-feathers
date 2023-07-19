@@ -19,7 +19,6 @@ const formats = [
   'companyTown',
   'companyStreet',
   'companyBio',
-   
   'type',
   'tag',
   'coordinates',

@@ -16,6 +16,7 @@ export const eventsSchema = Type.Object(
     info: Type.String(),
     sponsors: Type.String(),
     company: Type.String(),
+    isPublished: Type.Boolean(),
     coordinates: Type.String(),
     createdAt: Type.Number(),
     parentCompany: Type.Number(),

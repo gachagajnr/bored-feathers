@@ -14,7 +14,7 @@ import {
 } from './events.schema.js'
 import { EventsService, getOptions } from './events.class.js'
 import { eventsPath, eventsMethods } from './events.shared.js'
-import { showSaved } from '../../hooks/show-saved.js'
+import { showSavedEvents } from '../../hooks/show-saved-events.js'
 
 export * from './events.class.js'
 export * from './events.schema.js'
@@ -47,8 +47,8 @@ export const events = (app) => {
     },
     after: {
       all: [],
-      find: [showSaved],
-      get: [showSaved]
+      find: [showSavedEvents],
+      get: [showSavedEvents]
     },
     error: {
       all: []
