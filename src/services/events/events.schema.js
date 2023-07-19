@@ -81,6 +81,7 @@ export const eventsQueryProperties = Type.Pick(eventsSchema, [
   'info',
   'parentCompany',
   'coordinates',
+  'isPublished',
   'sponsors'
 ])
 export const eventsQuerySchema = Type.Intersect(
