@@ -1,3 +1,3 @@
-# bored-feathers
+# mahalikenya.com
 
-> bored feathers
+> mahalikenya is born

@@ -1,3 +1,5 @@
+import { packages } from './packages/packages.js'
+
 import { bucketListEvents } from './bucket-list-events/bucket-list-events.js'
 
 import { likedEvents } from './liked-events/liked-events.js'
@@ -27,6 +29,8 @@ import { user } from './users/users.js'
 // const authManagement = from './auth-management/auth-management.service.js'
 
 export const services = (app) => {
+  app.configure(packages)
+
   app.configure(bucketListEvents)
 
   app.configure(likedEvents)
