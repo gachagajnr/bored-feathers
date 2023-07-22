@@ -9,6 +9,7 @@ export const companiesSchema = Type.Object(
   {
     id: Type.Number(),
     onwer: Type.Number(),
+    package: Type.Number(),
     companyName: Type.String(),
     companyPhone: Type.String(),
     companyLocation: Type.String(),
@@ -30,9 +31,13 @@ export const companiesResolver = resolve({
     return context.app.service('social-links').find({
       query: {
         parentCompany: company.id,
-        $select: ['instagram','facebook', 'twitter', 'linkedin']
+        $select: ['instagram', 'facebook', 'twitter', 'linkedin']
       }
     })
+  }),
+    plan: virtual(async (company, context) => {
+    // Associate the company that created the activity
+    return context.app.service('packages').get(company.package)
   })
 })
 
@@ -41,7 +46,15 @@ export const companiesExternalResolver = resolve({})
 // Schema for creating new entries
 export const companiesDataSchema = Type.Pick(
   companiesSchema,
-  ['companyName', 'companyPhone', 'companyLocation', 'companyTown', 'companyStreet', 'companyBio'],
+  [
+    'package',
+    'companyName',
+    'companyPhone',
+    'companyLocation',
+    'companyTown',
+    'companyStreet',
+    'companyBio'
+  ],
   {
     $id: 'CompaniesData'
   }
@@ -70,6 +83,7 @@ export const companiesQueryProperties = Type.Pick(companiesSchema, [
   'id',
   'companyName',
   'companyPhone',
+  'package',
   'companyLocation',
   'companyTown',
   'companyStreet',
