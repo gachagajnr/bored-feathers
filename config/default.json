@@ -11,7 +11,7 @@
   },
   "postgresql": {
     "client": "pg",
-    "connection": "postgresql://bored:bored@localhost:5432/mahalikenya"
+    "connection": "postgresql://mahalikenya:kenyamahali@localhost:5432/mahalikenya"
   },
   "authentication": {
     "entity": "user",
