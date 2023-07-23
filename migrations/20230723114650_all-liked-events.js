@@ -4,7 +4,6 @@ export async function up(knex) {
     table.bigint('userId').references('id').inTable('users')
     table.bigint('eventId').references('id').inTable('events')
     table.bigint('createdAt')
-  
   })
 }
 

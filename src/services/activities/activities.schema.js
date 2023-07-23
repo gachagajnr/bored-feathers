@@ -30,8 +30,7 @@ export const activitiesSchema = Type.Object(
     creator: Type.String(),
     companyPhone: Type.String(),
     liker: Type.Ref(userSchema)
-    // act: Type.Ref(activitiesSchema)
-  },
+   },
   { $id: 'Activities', additionalProperties: false }
 )
 export const activitiesValidator = getValidator(activitiesSchema, dataValidator)

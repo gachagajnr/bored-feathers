@@ -1,16 +1,11 @@
 export async function up(knex) {
   await knex.schema.alterTable('activities', (table) => {
-    table.boolean('isPublished')
+    table.bigint('parentCompany').references('id').inTable('companies').defaultTo(null)
   })
 }
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 export async function down(knex) {
   await knex.schema.alterTable('activities', (table) => {
-    table.dropColumn('isPublished')
+    table.dropColumn('parentCompany')
   })
-  await knex.schema.dropTable('activities')
 }

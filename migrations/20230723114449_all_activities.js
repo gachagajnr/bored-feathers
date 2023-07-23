@@ -1,10 +1,7 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 export async function up(knex) {
   await knex.schema.createTable('activities', (table) => {
     table.increments('id')
+    table.bigint('creatorId').references('id').inTable('users').defaultTo(null)
     table.string('company')
     table.string('name')
     table.string('location')
@@ -12,25 +9,16 @@ export async function up(knex) {
     table.string('coordinates')
     table.specificType('participants', 'varchar[]')
     table.specificType('prices', 'varchar[]')
+    table.string('tag')
     table.string('duration')
     table.string('requirements')
     table.string('tips')
-  })
-
-  await knex.schema.alterTable('activities', (table) => {
+    table.string('type')
+    table.boolean('isPublished').defaultTo(true)
     table.bigint('createdAt')
-    table.bigint('companyId').references('id').inTable('users')
   })
 }
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 export async function down(knex) {
-  await knex.schema.alterTable('activities', (table) => {
-    table.dropColumn('createdAt')
-    table.dropColumn('companyId')
-  })
   await knex.schema.dropTable('activities')
 }

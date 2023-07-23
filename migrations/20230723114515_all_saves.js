@@ -1,10 +1,9 @@
 export async function up(knex) {
   await knex.schema.createTable('saves', (table) => {
     table.increments('id')
-    table.bigint('userId').references('id').inTable('users')
-    table.bigint('activityId').references('id').inTable('activities')
+    table.bigint('userId').references('id').inTable('users').defaultTo(null)
+    table.bigint('activityId').references('id').inTable('activities').defaultTo(null)
     table.bigint('createdAt')
-
   })
 }
 
