@@ -1,0 +1,52 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "./public/",
+  "origins": [
+    "http://localhost:3030"
+  ],
+  "paginate": {
+    "default": 100,
+    "max": 100
+  },
+  "postgresql": {
+    "client": "pg",
+    "connection": "postgresql://bored:bored@localhost:5432/mahalikenya"
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "ojt8Ho5EQRVPnpK8tDehzbIKb3lF4gs6",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://mahalikenya.com",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "oauth": {
+      "google": {
+        "key": "572987010374-qsqo8ubq9ic59nt7np20iar78a066ask.apps.googleusercontent.com",
+        "secret": "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",
+        "scope": ["openid","profile", "email"],
+        "nonce": true
+      },
+      "facebook": {
+        "key": "779118517249919",
+        "secret": "87d1f5c5eb89e7039ea139b441aa0d67",
+        "scope": ["email, public_profile"]
+
+      }
+
+    }
+  }
+}
