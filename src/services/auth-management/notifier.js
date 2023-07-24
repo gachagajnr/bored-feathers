@@ -7,7 +7,7 @@ export default (app) => {
   async function sendEmail(email) {
     try {
       const result = await app.service('mailer').create(email)
-      // console.log('SENDING EMAIL', result)
+      console.log('SENDING EMAIL', result)
       return result
     } catch (err) {
       console.error('SENDING EMAIL', err)
