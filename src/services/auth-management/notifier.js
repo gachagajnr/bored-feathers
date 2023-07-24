@@ -1,7 +1,7 @@
 // services/auth-management/notifier.js
 export default (app) => {
   function getLink(type, hash) {
-    return 'https://www.mahalikenya.com' + type + '?token=' + hash
+    return process.env.APP_URL + type + '?token=' + hash
   }
 
   async function sendEmail(email) {
@@ -10,19 +10,18 @@ export default (app) => {
       // console.log('SENDING EMAIL', result)
       return result
     } catch (err) {
-      // console.error('SENDING EMAIL', err)
+      console.error('SENDING EMAIL', err)
     }
   }
 
   return (type, user, notifierOptions = {}) => {
     let tokenLink
     let email
-    const fromEmail='mahalikenya.com'
     switch (type) {
       case 'resendVerifySignup': //sending the user the verification email
         tokenLink = getLink('verify', user.verifyToken)
         email = {
-          from: fromEmail,
+          from: process.env.FROM_EMAIL,
           to: user.email,
           subject: 'Verify Signup',
           html: tokenLink
@@ -33,7 +32,7 @@ export default (app) => {
       case 'verifySignup': // confirming verification
         tokenLink = getLink('verify', user.verifyToken)
         email = {
-          from: fromEmail,
+          from: process.env.FROM_EMAIL,
           to: user.email,
           subject: 'Confirm Signup',
           html: 'Thanks for verifying your email'
