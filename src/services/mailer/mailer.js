@@ -16,7 +16,7 @@ export const mailer = async (app) => {
     aMailer(
       mandrillTransport({
         auth: {
-          apiKey: process.env.MANDRILL_API_KEY
+          apiKey: 'md-dj7JJF_bRAxKZKDbGDoVnQ'
         }
       })
     )
