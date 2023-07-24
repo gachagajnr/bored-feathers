@@ -7,11 +7,23 @@ export default (app) => {
   async function sendEmail(email) {
     try {
       const result = await app.service('mailer').create(email)
-      // console.log('SENDING EMAIL', result)
+      console.log('SENDING EMAIL', result)
       return result
     } catch (err) {
       console.error('SENDING EMAIL', err)
     }
+  }
+  async function sendSms(sms) {
+    try {
+       const result = await app.service('sms').create(sms)
+       console.log('SENDING SMS', result)
+
+    } catch (error) {
+       console.log('SENDING SMS', error)
+      
+    }
+   
+       
   }
 
   return (type, user, notifierOptions = {}) => {
@@ -20,24 +32,20 @@ export default (app) => {
     switch (type) {
       case 'resendVerifySignup': //sending the user the verification email
         tokenLink = getLink('verify', user.verifyToken)
-        email = {
-          from: process.env.FROM_EMAIL,
-          to: user.email,
-          subject: 'Verify Signup',
-          html: tokenLink
+        sms = {
+          to: user.phoneNumber,
+          body: `Your verification pin is ${user.verifyToken}`
         }
-        return sendEmail(email)
+        return sendSms(sms)
         break
 
       case 'verifySignup': // confirming verification
         tokenLink = getLink('verify', user.verifyToken)
-        email = {
-          from: process.env.FROM_EMAIL,
-          to: user.email,
-          subject: 'Confirm Signup',
-          html: 'Thanks for verifying your email'
+        sms = {
+          to: user.phoneNumber,
+          body: `Your verification pin is ${user.verifyToken}`
         }
-        return sendEmail(email)
+        return sendSms(email)
         break
 
       case 'sendResetPwd':

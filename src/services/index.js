@@ -1,3 +1,5 @@
+import { sms } from './sms/sms.js'
+
 import { packages } from './packages/packages.js'
 
 import { bucketListEvents } from './bucket-list-events/bucket-list-events.js'
@@ -29,6 +31,8 @@ import { user } from './users/users.js'
 // const authManagement = from './auth-management/auth-management.service.js'
 
 export const services = (app) => {
+  app.configure(sms)
+
   app.configure(packages)
 
   app.configure(bucketListEvents)
