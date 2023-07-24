@@ -15,7 +15,6 @@ export const userSchema = Type.Object(
     phoneNumber: Type.String(),
     isOwner: Type.Boolean(),
     company: Type.Number(),
-    phoneNumber: Type.String(),
     avatar: Type.Optional(Type.String()),
     password: Type.Optional(Type.String()),
     googleId: Type.Optional(Type.String()),
