@@ -33,18 +33,18 @@ export default (app) => {
           to: `+254${phone}`,
           message: `Your verification code is ${user.verifyShortToken}`,
           from: '',
-          text: 'sample'
-        }
+         }
         return sendSms(sms)
         break
 
       case 'verifySignup': // confirming verification
-        tokenLink = getLink('verify', user.verifyToken)
+        var phone = user.phoneNumber.substring(1)
         sms = {
-          to: user.phoneNumber,
-          body: `Your verification pin is ${user.verifyToken}`
+          to: `+254${phone}`,
+          message: `Your account has been verified`,
+          from: ''
         }
-        return sendSms(email)
+        return sendSms(sms)
         break
 
       case 'sendResetPwd':
