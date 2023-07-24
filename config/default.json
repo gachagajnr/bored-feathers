@@ -35,8 +35,8 @@
     },
     "oauth": {
       "google": {
-        "key": "572987010374-qsqo8ubq9ic59nt7np20iar78a066ask.apps.googleusercontent.com",
-        "secret": "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",
+        "key": "887642367572-op5641r38fkqsbonk15m5qpkdg3rncga.apps.googleusercontent.com",
+        "secret": "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",
         "scope": ["openid","profile", "email"],
         "nonce": true
       },
