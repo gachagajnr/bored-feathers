@@ -15,26 +15,25 @@ export default (app) => {
   }
   async function sendSms(sms) {
     try {
-       const result = await app.service('sms').create(sms)
-       console.log('SENDING SMS', result)
-
+      const result = await app.service('sms').create(sms)
+      console.log('SENDING SMS', result)
     } catch (error) {
-       console.log('SENDING SMS', error)
-      
+      console.log('SENDING SMS', error)
     }
-   
-       
   }
 
   return (type, user, notifierOptions = {}) => {
     let tokenLink
-    let email
+    let sms
     switch (type) {
       case 'resendVerifySignup': //sending the user the verification email
         tokenLink = getLink('verify', user.verifyToken)
+        var phone = user.phoneNumber.substring(1)
         sms = {
-          to: user.phoneNumber,
-          body: `Your verification pin is ${user.verifyToken}`
+          to: `+254${phone}`,
+          message: `Your verification code is ${user.verifyShortToken}`,
+          from: '',
+          text: 'sample'
         }
         return sendSms(sms)
         break

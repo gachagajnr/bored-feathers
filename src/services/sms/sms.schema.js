@@ -7,7 +7,9 @@ import { dataValidator, queryValidator } from '../../validators.js'
 export const smsSchema = Type.Object(
   {
     id: Type.Number(),
-    text: Type.String()
+    to: Type.String(),
+    message: Type.String(),
+    from: Type.String()
   },
   { $id: 'Sms', additionalProperties: false }
 )
@@ -17,7 +19,7 @@ export const smsResolver = resolve({})
 export const smsExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const smsDataSchema = Type.Pick(smsSchema, ['text'], {
+export const smsDataSchema = Type.Pick(smsSchema, ['to', 'message', 'from'], {
   $id: 'SmsData'
 })
 export const smsDataValidator = getValidator(smsDataSchema, dataValidator)
